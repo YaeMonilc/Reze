@@ -2,6 +2,7 @@
 
 package io.github.yaemonilc.reze.core.manager
 
+import io.github.yaemonilc.reze.core.util.getLogger
 import io.github.yaemonilc.reze.napcat.Session
 import io.github.yaemonilc.reze.napcat.entity.event.Event
 import io.github.yaemonilc.reze.napcat.entity.response.Response
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonObject
+import java.net.SocketTimeoutException
 
 @PublishedApi
 internal class SessionManager {
@@ -48,13 +50,19 @@ internal class SessionManager {
     internal fun createBot(
         sign: String,
         url: String
-    ) = sessions.update {
-        it + Session(
+    ) = sessions.update { sessions ->
+        sessions + Session(
             sign = sign,
             url = url
         ).apply {
             CoroutineScope(Default + SupervisorJob()).launch {
-                connect()
+                runCatching {
+                    connect()
+                }.onFailure {
+                    if (it is SocketTimeoutException) {
+                        getLogger<SessionManager>().error("Bot: {} timeout", sign)
+                    }
+                }
             }
         }
     }
