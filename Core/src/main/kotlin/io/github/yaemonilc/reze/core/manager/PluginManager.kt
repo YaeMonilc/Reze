@@ -56,6 +56,8 @@ internal class PluginManager(
                                             )
                                         )
 
+                                        getLogger<PluginManager>().info("Load plugin: {}", name)
+
                                         CoroutineScope(Default + SupervisorJob()).launch {
                                             runCatching {
                                                 plugin.onLoaded()
@@ -65,8 +67,6 @@ internal class PluginManager(
                                                 ).error(it)
                                             }
                                         }
-
-                                        getLogger<PluginManager>().info("Load plugin: {}", name)
                                     }
                                 }
                         } ?: throw IllegalStateException("Failed to load plugin ${pluginFile}!")

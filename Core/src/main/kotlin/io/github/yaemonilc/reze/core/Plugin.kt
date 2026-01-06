@@ -19,7 +19,8 @@ object Plugin {
             ?: throw NullPointerException("Not found instance of ${T::class.simpleName}")
 
     inline fun <reified T : IPlugin> privateDirectory(): File =
-        registeredInstance<T>()?.privateDirectory
-            ?: throw NullPointerException("Not found instance of ${T::class.simpleName}")
-
+        registeredInstance<T>()?.privateDirectory?.apply {
+            if (!exists())
+                mkdirs()
+        } ?: throw NullPointerException("Not found instance of ${T::class.simpleName}")
 }

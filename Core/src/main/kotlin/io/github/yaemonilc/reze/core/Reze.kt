@@ -35,7 +35,9 @@ class Reze internal constructor() {
                     pluginManager = PluginManager(
                         pluginDirectory = pluginDirectory,
                         basePrivateDirectory = pluginPrivateDirectory
-                    ).apply {
+                    )
+
+                    pluginManager.apply {
                         runCatching {
                             loadPlugins()
                         }.onFailure {
