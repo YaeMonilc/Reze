@@ -4,7 +4,7 @@ interface IPlugin {
     suspend fun onLoaded()
 }
 
-inline fun <reified T : IPlugin> instance(): T =
+inline fun <reified T : IPlugin> getPluginInstance(): T =
     reze().pluginManager.byClazz(
         clazz = T::class
     )?.instance as? T ?: throw NullPointerException("Not found instance of ${T::class.simpleName}")
