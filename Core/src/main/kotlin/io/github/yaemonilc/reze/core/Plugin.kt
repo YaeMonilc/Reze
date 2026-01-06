@@ -1,7 +1,7 @@
 package io.github.yaemonilc.reze.core
 
 interface IPlugin {
-    fun onLoaded()
+    suspend fun onLoaded()
 }
 
 inline fun <reified T : IPlugin> instance(): T =
