@@ -1,4 +1,6 @@
 plugins {
+    application
+
     kotlin("jvm")
     kotlin("plugin.serialization")
     id("com.gradleup.shadow")
@@ -18,6 +20,15 @@ dependencies {
     implementation(project(":Core"))
 
     testImplementation(kotlin("test"))
+}
+
+application {
+    mainClass.set("io.github.yaemonilc.reze.launcher.RezeLauncherKt")
+}
+
+tasks.withType<JavaExec> {
+    workingDir = rootProject.projectDir
+    standardInput = System.`in`
 }
 
 tasks.test {
