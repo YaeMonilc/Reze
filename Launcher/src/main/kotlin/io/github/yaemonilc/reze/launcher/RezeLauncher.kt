@@ -1,6 +1,6 @@
 package io.github.yaemonilc.reze.launcher
 
-import io.github.yaemonilc.reze.core.createBot
+import io.github.yaemonilc.reze.core.createSession
 import io.github.yaemonilc.reze.core.initializeReze
 import io.github.yaemonilc.reze.launcher.entity.Config
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -47,7 +47,7 @@ suspend fun main() {
             )
 
             it.bots.forEach { (sign, url) ->
-                createBot(
+                createSession(
                     sign = sign,
                     url = url
                 )

@@ -68,12 +68,18 @@ fun initializeReze(
 
 fun reze(): Reze = Reze.getInstance()
 
-fun createBot(
+fun createSession(
     sign: String,
     url: String
-) = reze().sessionManager.createBot(
+) = reze().sessionManager.createSession(
     sign = sign,
     url = url
+)
+
+suspend fun getSessionBySign(
+    sign: String
+) = reze().sessionManager.getSession(
+    sign = sign
 )
 
 fun subscribeEvent() =
