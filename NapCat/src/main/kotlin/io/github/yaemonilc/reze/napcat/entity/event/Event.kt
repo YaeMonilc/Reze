@@ -166,7 +166,9 @@ abstract class Event {
                                                     when (it) {
                                                         ProfileLikeEvent.SubType.PROFILE_LIKE -> ProfileLikeEvent.serializer()
                                                     }
-                                                }
+                                                } ?: if (obj["sub_type"]?.jsonPrimitive?.content == "input_status")
+                                                    InputStatusEvent.serializer()
+                                                else null
                                             }
                                             NoticeType.GROUP_RECALL -> GroupRecallEvent.serializer()
                                             NoticeType.GROUP_UPLOAD -> GroupUploadEvent.serializer()
